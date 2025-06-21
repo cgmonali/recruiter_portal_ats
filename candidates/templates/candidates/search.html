@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Candidate Search</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .search-box { margin-bottom: 20px; }
+        .search-results { margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Candidate Search</h1>
+    
+    <div class="search-box">
+        <form method="get" action="/api/candidates/search/">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search by name..." size="50">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    
+    {% if query %}
+    <div class="search-results">
+        <h2>Results for "{{ query }}"</h2>
+        {% if candidates %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for candidate in candidates %}
+                    <tr>
+                        <td>{{ candidate.name }}</td>
+                        <td>{{ candidate.email }}</td>
+                        <td>{{ candidate.phone_number }}</td>
+                        <td>{{ candidate.age }}</td>
+                        <td>{{ candidate.get_gender_display }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No candidates found matching your search.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</body>
+</html>
